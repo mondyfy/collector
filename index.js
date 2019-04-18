@@ -108,7 +108,8 @@ function writeTextInFile(text, filePath) {
 function commitNewChanges(message) {
   console.log(`Committing : ${message}`);
   try {
-    shell.exec(`git commit -am "${message}"`);
+    shell.exec(`git add .`);
+    shell.exec(`git commit -m "${message}"`);
   } catch (err) {
     handleAppError();
   }
