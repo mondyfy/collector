@@ -6,8 +6,7 @@ const shell = require("shelljs");
 const dataSources = require("./config");
 const maxRetentionDay = 5;
 
-// main();
-commitNewChanges("Add shelljs");
+main();
 
 async function main() {
   createNewFolder(`data`);
@@ -34,14 +33,13 @@ async function main() {
             source.name,
             feature.name
           );
-          console.log(`Complete for : ${fetchDate} - ${feature.name}`);
+          commitNewChanges(`Add data for : ${fetchDate} - ${feature.name}`);
         }
-        console.log(`Complete for date : ${fetchDate}`);
         writeTextInFile(`${fetchDate}\n`, historyFilePath);
       }
     }
   }
-  console.log("Complete");
+  handleProcessCompleteEvent();
 }
 
 function getFetchHistoryList(name) {
@@ -108,8 +106,18 @@ function writeTextInFile(text, filePath) {
 }
 
 function commitNewChanges(message) {
+  console.log(`Committing : ${message}`);
   try {
     shell.exec(`git commit -am "${message}"`);
+  } catch (err) {
+    handleAppError();
+  }
+}
+
+function handleProcessCompleteEvent() {
+  console.log("Complete");
+  try {
+    shell.exec(`git push origin master`);
   } catch (err) {
     handleAppError();
   }
