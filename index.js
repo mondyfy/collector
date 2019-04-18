@@ -73,6 +73,9 @@ function saveJsonDataToFile(data, date, name, feature) {
   );
   createNewFolder(`data/${name}/${feature}`);
   fs.writeFileSync(filePath, `"datetime","value"\n`);
+  if (!data) {
+    data = [];
+  }
   for (let i = 0; i < data.length; i += 1) {
     const d = data[i];
     let fileContent = `"${d.datetime}","${d.value}"\n`;
