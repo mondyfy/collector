@@ -36,6 +36,7 @@ async function main() {
           commitNewChanges(`Add data for : ${fetchDate} - ${feature.name}`);
         }
         writeTextInFile(`${fetchDate}\n`, historyFilePath);
+        commitNewChanges(`Update history for date ${fetchDate}`);
       }
     }
   }
