@@ -1,11 +1,13 @@
 const request = require("request");
 const fs = require("fs");
 const path = require("path");
+const shell = require("shelljs");
 
 const dataSources = require("./config");
 const maxRetentionDay = 5;
 
-main();
+// main();
+commitNewChanges("Add shelljs");
 
 async function main() {
   createNewFolder(`data`);
@@ -103,4 +105,17 @@ function createNewFolder(p) {
 
 function writeTextInFile(text, filePath) {
   fs.writeFileSync(filePath, text, { flag: "a" });
+}
+
+function commitNewChanges(message) {
+  try {
+    shell.exec(`git commit -am "${message}"`);
+  } catch (err) {
+    handleAppError();
+  }
+}
+
+function handleAppError() {
+  /* Alert some message and inform owner */
+  console.log("Error error error");
 }
