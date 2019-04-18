@@ -78,11 +78,13 @@ function saveJsonDataToFile(data, date, name, feature) {
   }
   for (let i = 0; i < data.length; i += 1) {
     const d = data[i];
-    let fileContent = `"${d.datetime}","${d.value}"\n`;
-    if (i === data.length - 1) {
-      fileContent = `"${d.datetime}","${d.value}"`;
+    if (d.datetime.contains(date)) {
+      let fileContent = `"${d.datetime}","${d.value}"\n`;
+      if (i === data.length - 1) {
+        fileContent = `"${d.datetime}","${d.value}"`;
+      }
+      writeTextInFile(fileContent, filePath);
     }
-    writeTextInFile(fileContent, filePath);
   }
 }
 
