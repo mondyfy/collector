@@ -1,3 +1,4 @@
+require("dotenv").config();
 const request = require("request");
 const fs = require("fs");
 const path = require("path");
@@ -125,6 +126,7 @@ function handleProcessCompleteEvent() {
   console.log("Complete");
   try {
     shell.exec(`git push origin master`);
+    sendNotificationToOwner("New update is successfully pushed !!");
   } catch (err) {
     handleAppError();
   }
@@ -133,4 +135,13 @@ function handleProcessCompleteEvent() {
 function handleAppError() {
   /* Alert some message and inform owner */
   console.log("Error error error");
+  sendNotificationToOwner("Error error error");
+}
+
+async function sendNotificationToOwner(message) {
+  const telegramBotUrl = `https://api.telegram.org/bot${
+    process.env.TELEGRAM_BOT_KEY
+  }/sendMessage?chat_id=${process.env.TELEGRAM_CHAT_ID}&text=${message}`;
+  await fetchDataUsingRequest(telegramBotUrl);
+  shell.exec(`pm2 stop collector`);
 }
