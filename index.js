@@ -79,7 +79,11 @@ function saveJsonDataToFile(data, date, name, feature) {
   }
   for (let i = 0; i < data.length; i += 1) {
     const d = data[i];
-    if (d.datetime.includes(date)) {
+    /***
+     * -999 : This is invalid data
+     * and some dates are from other date than the requested date
+     *  */
+    if (d.datetime.includes(date) && d.value !== -999) {
       let fileContent = `"${d.datetime}","${d.value}"\n`;
       if (i === data.length - 1) {
         fileContent = `"${d.datetime}","${d.value}"`;
