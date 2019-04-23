@@ -83,7 +83,7 @@ function saveJsonDataToFile(data, date, name, feature) {
      * -999 : This is invalid data
      * and some dates are from other date than the requested date
      *  */
-    if (d.datetime.includes(date) && d.value !== -999) {
+    if (d.datetime.includes(date) && d.value !== -999 && d.value !== null) {
       let fileContent = `"${d.datetime}","${d.value}"\n`;
       if (i === data.length - 1) {
         fileContent = `"${d.datetime}","${d.value}"`;
@@ -147,5 +147,4 @@ async function sendNotificationToOwner(message) {
     process.env.TELEGRAM_BOT_KEY
   }/sendMessage?chat_id=${process.env.TELEGRAM_CHAT_ID}&text=${message}`;
   await fetchDataUsingRequest(telegramBotUrl);
-  shell.exec(`pm2 stop collector`);
 }
