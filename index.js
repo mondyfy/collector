@@ -21,8 +21,8 @@ async function main() {
     for (let i = 1; i <= maxRetentionDay; i += 1) {
       const fetchDate = getNthPastDate(i);
       if (history.indexOf(fetchDate) === -1) {
-        for (let f = 0; f < source.features.length; f += 1) {
-          try {
+        try {
+          for (let f = 0; f < source.features.length; f += 1) {
             const feature = source.features[f];
             const dataFetchUrl = `http://pollution.gov.np/gss/api/observation?series_id=${
               feature.code
@@ -36,12 +36,12 @@ async function main() {
               feature.name
             );
             commitNewChanges(`Add data for : ${fetchDate} - ${feature.name}`);
-          } catch (err) {
-            console.log(err);
           }
+          writeTextInFile(`${fetchDate}\n`, historyFilePath);
+          commitNewChanges(`Update history for date ${fetchDate}`);
+        } catch (err) {
+          console.log(err);
         }
-        writeTextInFile(`${fetchDate}\n`, historyFilePath);
-        commitNewChanges(`Update history for date ${fetchDate}`);
       }
     }
   }
