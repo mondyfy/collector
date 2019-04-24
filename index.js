@@ -22,19 +22,23 @@ async function main() {
       const fetchDate = getNthPastDate(i);
       if (history.indexOf(fetchDate) === -1) {
         for (let f = 0; f < source.features.length; f += 1) {
-          const feature = source.features[f];
-          const dataFetchUrl = `http://pollution.gov.np/gss/api/observation?series_id=${
-            feature.code
-          }&date_from=${fetchDate}T00:00:00&date_to=${fetchDate}T24:00:00`;
+          try {
+            const feature = source.features[f];
+            const dataFetchUrl = `http://pollution.gov.np/gss/api/observation?series_id=${
+              feature.code
+            }&date_from=${fetchDate}T00:00:00&date_to=${fetchDate}T24:00:00`;
 
-          const responseData = await fetchDataUsingRequest(dataFetchUrl);
-          saveJsonDataToFile(
-            responseData.data,
-            fetchDate,
-            source.name,
-            feature.name
-          );
-          commitNewChanges(`Add data for : ${fetchDate} - ${feature.name}`);
+            const responseData = await fetchDataUsingRequest(dataFetchUrl);
+            saveJsonDataToFile(
+              responseData.data,
+              fetchDate,
+              source.name,
+              feature.name
+            );
+            commitNewChanges(`Add data for : ${fetchDate} - ${feature.name}`);
+          } catch (err) {
+            console.log(err);
+          }
         }
         writeTextInFile(`${fetchDate}\n`, historyFilePath);
         commitNewChanges(`Update history for date ${fetchDate}`);
