@@ -3,11 +3,26 @@ const request = require("request");
 const fs = require("fs");
 const path = require("path");
 const shell = require("shelljs");
+const CronJob = require("cron").CronJob;
+const express = require("express");
+
+const app = express();
+
+const PORT = process.env.PORT || 2020;
 
 const dataSources = require("./config");
 const maxRetentionDay = 5;
 
-main();
+const collectorJob = new CronJob(
+  "0 */30 9-17 * * *",
+  function() {
+    console.log(new Date());
+    main();
+  },
+  null,
+  true,
+  "Asia/Kathmandu"
+);
 
 async function main() {
   createNewFolder(`data`);
@@ -152,3 +167,8 @@ async function sendNotificationToOwner(message) {
   }/sendMessage?chat_id=${process.env.TELEGRAM_CHAT_ID}&text=${message}`;
   await fetchDataUsingRequest(telegramBotUrl);
 }
+
+app.listen(() => {
+  console.log(`Server running on port ${PORT}`);
+  collectorJob.start();
+});
