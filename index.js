@@ -14,7 +14,7 @@ const dataSources = require("./config");
 const maxRetentionDay = 5;
 
 const collectorJob = new CronJob(
-  "0 */50 9-17 * * *",
+  "0 */30 9-17 * * *",
   function() {
     console.log(new Date());
     main();
