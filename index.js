@@ -168,7 +168,7 @@ async function sendNotificationToOwner(message) {
   await fetchDataUsingRequest(telegramBotUrl);
 }
 
-app.listen(() => {
-  console.log(`Server running on port ${PORT}`);
+//app.listen(() => {
+  //console.log(`Server running on port ${PORT}`);
   collectorJob.start();
-});
+//});
