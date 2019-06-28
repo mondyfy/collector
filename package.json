@@ -2,7 +2,6 @@
   "dependencies": {
     "cron": "^1.7.1",
     "dotenv": "^8.0.0",
-    "express": "^4.17.1",
     "request": "^2.88.0",
     "shelljs": "^0.8.3"
   }

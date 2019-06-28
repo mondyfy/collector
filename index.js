@@ -3,26 +3,23 @@ const request = require("request");
 const fs = require("fs");
 const path = require("path");
 const shell = require("shelljs");
-const CronJob = require("cron").CronJob;
-const express = require("express");
-
-const app = express();
-
-const PORT = process.env.PORT || 2020;
+// const CronJob = require("cron").CronJob;
 
 const dataSources = require("./config");
 const maxRetentionDay = 5;
 
-const collectorJob = new CronJob(
-  "0 */5 1-23 * * *",
-  function() {
-    console.log(new Date());
-    main();
-  },
-  null,
-  true,
-  "Asia/Kathmandu"
-);
+main();
+
+// const collectorJob = new CronJob(
+//   "0 */5 1-23 * * *",
+//   function() {
+//     console.log(new Date());
+//     main();
+//   },
+//   null,
+//   true,
+//   "Asia/Kathmandu"
+// );
 
 async function main() {
   createNewFolder(`data`);
@@ -168,7 +165,4 @@ async function sendNotificationToOwner(message) {
   await fetchDataUsingRequest(telegramBotUrl);
 }
 
-//app.listen(() => {
-  //console.log(`Server running on port ${PORT}`);
-  collectorJob.start();
-//});
+// collectorJob.start();
