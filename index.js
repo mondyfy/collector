@@ -15,9 +15,9 @@ const maxRetentionDay = 5;
 
 const collectorJob = new CronJob(
   "0 */5 1-23 * * *",
-  async function() {
+  function() {
     console.log(new Date());
-    await main();
+    main();
   },
   null,
   true,
